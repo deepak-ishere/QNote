@@ -1,5 +1,6 @@
 #include <linux/limits.h>
 #include<stdio.h>
+#include <string.h>
 #include <strings.h>
 #include<time.h>
 #include<stdlib.h>
@@ -15,18 +16,25 @@ void init_path(void);
 char *get_time(void);
 int write(const char *str);
 char *help(void);
-int format_write(char *data);
-
+int format_write(char * data);
 
 int main(int argc , char *argv[]){
     
     init_path();
     if ( argc >1){    
         
-        format_write(argv[1]);
+        if (strcmp(argv[1],"--locate") == 0 || strcmp(argv[1], "-l")==0){
 
-        printf(" Noted 👍 \n");
-        return 0;
+            printf("%s\n",FILE_PATH);
+        }
+
+        else{
+
+            format_write(argv[1]);
+
+            printf(" Noted 👍 \n");
+            return 0;
+        }
 
     }
 
@@ -45,7 +53,6 @@ void init_path(void){
     
 }
     
-
 int format_write(char *data){
         
     char *now = get_time();
@@ -53,9 +60,10 @@ int format_write(char *data){
     write("\n");
     write(now);
     write(data);        
-    write("\n");
-
+    write("\n"); 
+    return 0;
 }
+
 
 char *get_time(void){
 
