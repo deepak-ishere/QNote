@@ -1,26 +1,29 @@
 #include <linux/limits.h>
 #include<stdio.h>
+#include <strings.h>
 #include<time.h>
 #include<stdlib.h>
+#include<limits.h>
 
+
+
+// man here the PATH_MAX is just representing the size of the possible file 
+char FILE_PATH[PATH_MAX];
 
 //  get a timestamp && string to a presistant file 
-
-const char *FILE_PATH = "/home/normie/.qnote/log";
-
+void init_path(void);
 char *get_time(void);
 int write(const char *str);
 char *help(void);
+int format_write(char *data);
+
 
 int main(int argc , char *argv[]){
-
+    
+    init_path();
     if ( argc >1){    
-        char *now = get_time();
         
-        write("\n");
-        write(now);
-        write(argv[1]);        
-        write("\n");
+        format_write(argv[1]);
 
         printf(" Noted 👍 \n");
         return 0;
@@ -35,6 +38,25 @@ int main(int argc , char *argv[]){
 
 }
 
+void init_path(void){
+
+    const char *home = getenv("HOME");
+    snprintf(FILE_PATH, PATH_MAX ,"%s/.qnote",home);
+    
+}
+    
+
+int format_write(char *data){
+        
+    char *now = get_time();
+        
+    write("\n");
+    write(now);
+    write(data);        
+    write("\n");
+
+}
+
 char *get_time(void){
 
     // here fetching time 
@@ -44,10 +66,9 @@ char *get_time(void){
 }
 
 int write(const char *str){
-
+    
     FILE *fckin_file;
-
-    fckin_file = fopen(FILE_PATH, "a");
+    fckin_file = fopen(FILE_PATH, "a+");
 
     if (fckin_file == NULL){
         printf("ERROR opening file \n");
@@ -59,11 +80,15 @@ int write(const char *str){
         // here checking any trouble making char s
 
         fclose(fckin_file);
-        return 1;}
+        return 1;
+
+    }
     
     fclose(fckin_file);
     return 0;
     
 
 }
+
+
 
