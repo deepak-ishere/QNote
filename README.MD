@@ -10,7 +10,9 @@ usage:-
 
 flags :-
     
-    - no flags (for now) 
+    -l or --locate => gives the file path
+    -n or --new-project => creates new project 
+
 
     just accepts the first argument as a input 
 

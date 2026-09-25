@@ -1,10 +1,10 @@
 
 #include<stdio.h>
-#include <string.h>
+#include<string.h>
 #include<time.h>
 #include<stdlib.h>
 #include<limits.h>
-#include <sys/stat.h>
+#include<sys/stat.h>
 #include<sys/types.h>
 
 
@@ -15,7 +15,7 @@ char FILE_PATH[PATH_MAX];
 
 char HOME[PATH_MAX];     // here home is the home for the tool ( i,e. /home/user/QNote/ - for linux )
 
-char FILE_NAME[256]="QNote";     // represents the name of the file its wrinting ( here we call project )
+char FILE_NAME[256]="QNote";     // represents the name of the file its writing ( here we call project )
 
 //  get a timestamp && string to a presistant file 
 void init_path(void);
@@ -53,7 +53,7 @@ int main(int argc , char *argv[]){
 
             format_write(argv[1]);
 
-            printf(" Noted 👍 \n");
+            printf(" Noted!.\n");
             return 0;
         }
 
