@@ -1,4 +1,5 @@
 
+#include <linux/limits.h>
 #include<stdio.h>
 #include<string.h>
 #include<time.h>
@@ -25,7 +26,7 @@ char *help(void);
 int format_write(char * data);
 int mk_dir(char *name);
 int dir_check(const char * path);
-
+int config();
 
 
 
@@ -76,7 +77,12 @@ void init_path(void){
     /* here it got merged to HOME */
 
     if (dir_check("~/QNote")==0){
-        mk_dir(HOME);        // checking wether the dir exist , if not found create one 
+        if (mk_dir(HOME)){
+            ; // checking wether the dir exist , if not found create one 
+        }
+        else{
+            printf("request failed : create dir\n");
+        }
     }
     snprintf(FILE_PATH, PATH_MAX ,"%s/QNote/%s",home,FILE_NAME);
     // merging the whole (absolute) path for the HOME/FILENAME 
@@ -90,9 +96,9 @@ int format_write(char *data){
     char *now = get_time();
         
     write("\n");
-    write(now);
     write(data);        
     write("\n"); 
+
     return 0;
 }
 
@@ -108,7 +114,7 @@ char *get_time(void){
 int write(const char *str){
     
     FILE *fckin_file;
-    fckin_file = fopen(FILE_PATH, "a+");
+    fckin_file = fopen(FILE_NAME, "a+");
 
     if (fckin_file == NULL){
         printf("ERROR opening file \n");
@@ -137,9 +143,9 @@ int mk_dir(char *name){
 
     /* which gives; 
 
-     *       user * permissions  -rwx
-     *       for grps            -rx
-     *       other users         -rx
+            user * permissions  -rwx
+            for grps            -rx
+            other users         -rx
      
      */
 
@@ -156,4 +162,12 @@ int dir_check(const char * path){
     struct stat pathStat;
     stat(path, &pathStat);
     return S_ISDIR(pathStat.st_mode);
+}
+
+int config(){
+    // creats a config file & reading the config 
+    //  @  HOME/.conf
+
+    
+
 }
