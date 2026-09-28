@@ -9,8 +9,10 @@ usage:-
 
 
 flags :-
+    
+    -l or --locate => gives the file path
+    -n or --new-project => creates new project 
 
-    -l for locate ( aka --locate )
 
     just accepts the first argument as a input 
 
