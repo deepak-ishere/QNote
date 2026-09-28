@@ -9,9 +9,7 @@ usage:-
 
 
 flags :-
-    
-    - no flags (for now) 
-
+    -l for locate ( aka --locate )
     just accepts the first argument as a input 
 
 *****************************************************
