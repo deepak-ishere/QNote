@@ -1,5 +1,3 @@
-
-#include <linux/limits.h>
 #include<stdio.h>
 #include<string.h>
 #include<time.h>
@@ -12,6 +10,12 @@
 
 // man here the PATH_MAX is just representing the size of the possible file 
 
+#ifndef PATH_MAX
+    #define PATH_MAX 4096
+#endif
+// Above we're provinding a fall back for PATH_MAX
+
+
 char FILE_PATH[PATH_MAX];
 
 char HOME[PATH_MAX];     // here home is the home for the tool ( i,e. /home/user/QNote/ - for linux )
@@ -21,9 +25,9 @@ char FILE_NAME[256]="QNote";     // represents the name of the file its writing 
 //  get a timestamp && string to a presistant file 
 void init_path(void);
 char *get_time(void);
-int write(const char *str);
+int write2f(const char *str);
 char *help(void);
-int format_write(char * data);
+int format_write2f(char * data);
 int mk_dir(char *name);
 int dir_check(const char * path);
 int config();
@@ -40,6 +44,9 @@ int main(int argc , char *argv[]){
         }
         
         else if (strcmp(argv[1],"--new-project")==0 || strcmp(argv[1],"-n")==0){
+            if (1){printf("yo sry twin, TS is still under developement.\n");
+                return 0;}
+
             if (argc>2){
                 strcpy(FILE_NAME,argv[2]);
                 printf("Done the file is set to %s.\n",FILE_NAME);
@@ -48,11 +55,11 @@ int main(int argc , char *argv[]){
                 printf("please enter a Name for the project.\n");
                 return 0;
             }
-        }
+        } 
 
         else{
 
-            format_write(argv[1]);
+            format_write2f(argv[1]);
 
             printf(" Noted!.\n");
             return 0;
@@ -73,10 +80,10 @@ void init_path(void){
     // here we're using std posix tool to get the home dir 
     const char * home=getenv("HOME");
 
-    snprintf(HOME, PATH_MAX, "%s/QNote",home);
+    snprintf(HOME, PATH_MAX, "%s/.QNote",home);
     /* here it got merged to HOME */
 
-    if (dir_check("~/QNote")==0){
+    if (dir_check("~/.QNote/")==0){
         if (mk_dir(HOME)){
             ; // checking wether the dir exist , if not found create one 
         }
@@ -84,20 +91,23 @@ void init_path(void){
             printf("request failed : create dir\n");
         }
     }
-    snprintf(FILE_PATH, PATH_MAX ,"%s/QNote/%s",home,FILE_NAME);
+
+
+    snprintf(FILE_PATH, PATH_MAX ,"%s/.QNote/%s",home,FILE_NAME);
     // merging the whole (absolute) path for the HOME/FILENAME 
     
 }
     
-int format_write(char *data){
+int format_write2f(char *data){
 
         // just formating 
 
     char *now = get_time();
-        
-    write("\n");
-    write(data);        
-    write("\n"); 
+    
+    write2f("\n | ");
+    write2f(now);
+    write2f(data);        
+    write2f("\n"); 
 
     return 0;
 }
@@ -111,10 +121,10 @@ char *get_time(void){
 
 }
 
-int write(const char *str){
+int write2f(const char *str){
     
     FILE *fckin_file;
-    fckin_file = fopen(FILE_NAME, "a+");
+    fckin_file = fopen(FILE_PATH, "a+");
 
     if (fckin_file == NULL){
         printf("ERROR opening file \n");
@@ -150,7 +160,8 @@ int mk_dir(char *name){
      */
 
     else{
-        perror("mkdir");  // gives the default err (Inc in the mkdir doc)
+        return 1;
+ // perror("mkdir") gives the default err (Inc in the mkdir doc) but its fuckin annoying btw
     }
 }
 
